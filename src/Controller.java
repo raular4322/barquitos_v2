@@ -43,12 +43,12 @@ public class Controller extends Frame {
 				Boat boat = new Boat(i);
 				
 				if (placeBoat(boat)) {
-					System.out.println(this.board.toString());
-					System.out.println("-------------------------");
+					trys = 0;
 					j++;
+				} else {
+					trys += 1;
 				}
 				
-				trys += 1;
 				if (trys > 100) {
 					j++;
 				}
@@ -57,7 +57,7 @@ public class Controller extends Frame {
 	}
 	
 	public Boolean placeBoat(Boat boat) {
-		boolean result = false;
+		boolean placed = false;
 		
 		Random rX = new Random();
 		Random rY = new Random();
@@ -70,18 +70,18 @@ public class Controller extends Frame {
 		if (orientation == 0 && inBounds(x, boat.getSize()) && freeHorizontal(x, y, boat.getSize())) {
 			for (int i = x - boat.getSize(); i <= x; i++) {
 				this.board.getPosition(i, y).setBoat(boat);
-				result = true;
+				placed = true;
 			}
 		}
 		
 		if (orientation == 1 && inBounds(y, boat.getSize()) && freeVertical(x, y, boat.getSize())) {
 			for (int i = y - boat.getSize(); i <= y; i++) {
 				this.board.getPosition(x, i).setBoat(boat);
-				result = true;
+				placed = true;
 			}
 		}
 		
-		return result;
+		return placed;
 	}
 	
 	public Boolean inBounds(int coord, int size) {
@@ -116,8 +116,9 @@ public class Controller extends Frame {
 		Cell shotCell = board.getPosition(x, y);
 		
 		if (shotCell.getColor() == Colors.HIDDEN) {
-			if (shotCell.getBoat() == null) shotCell.setColor(Colors.MISS);
-			else {
+			if (shotCell.getBoat() == null) {
+				shotCell.setColor(Colors.MISS);
+			} else {
 				shotCell.getBoat().hit();
 				shotCell.setColor(Colors.HIT);
 			}
@@ -137,13 +138,13 @@ public class Controller extends Frame {
 				if (boat != null && boat.getLives() == 0) {
 					this.board.getPosition(i, j).setColor(Colors.SINK);
 				}
-				if(boat != null && boat.getLives() > 0) {
+				if (boat != null && boat.getLives() > 0) {
 					noBoatAlive = false;
 				}
 			}
 		}
 		
-		if(noBoatAlive) {
+		if (noBoatAlive) {
 			gameOver();
 		}
 	}
