@@ -22,8 +22,9 @@ public class Controller extends Frame {
 		this.support.addPropertyChangeListener(view);
 		
 		this.add(this.view);
-		this.setSize(board.getSize() * 40 + 15, board.getSize() * 40 + 38);
+		this.setSize(board.getSize() * 40 + 5, board.getSize() * 40 + 28);
 		this.setVisible(true);
+		this.setResizable(false);
 		
 		placeBoats(boatsNumber);
 		
@@ -113,18 +114,20 @@ public class Controller extends Frame {
 	}
 	
 	public void shoot(int x, int y) {
-		Cell shotCell = board.getPosition(x, y);
-		
-		if (shotCell.getColor() == Colors.HIDDEN) {
-			if (shotCell.getBoat() == null) {
-				shotCell.setColor(Colors.MISS);
-			} else {
-				shotCell.getBoat().hit();
-				shotCell.setColor(Colors.HIT);
-			}
+		if (x < this.board.getSize() && y < this.board.getSize()) {
+			Cell shotCell = board.getPosition(x, y);
 			
-			checkSinkBoats();
-			support.firePropertyChange("board", 0, board);
+			if (shotCell.getColor() == Colors.HIDDEN) {
+				if (shotCell.getBoat() == null) {
+					shotCell.setColor(Colors.MISS);
+				} else {
+					shotCell.getBoat().hit();
+					shotCell.setColor(Colors.HIT);
+				}
+				
+				checkSinkBoats();
+				support.firePropertyChange("board", 0, board);
+			}
 		}
 	}
 	
