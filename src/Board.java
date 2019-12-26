@@ -17,8 +17,8 @@ public class Board {
 	}
 	
 	private void populate() {
-		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size; j++) {
+		for (int i = 0; i < this.size; i++) {
+			for (int j = 0; j < this.size; j++) {
 				this.board[i][j] = new Cell();
 			}
 		}
@@ -26,9 +26,9 @@ public class Board {
 	
 	public String toString() {
 		String result = "";
-		for (int i = 0; i < this.board.length; i++) {
-			for (int j = 0; j < this.board.length; j++) {
-				result += " " + this.board[i][j];
+		for (int i = 0; i < this.size; i++) {
+			for (int j = 0; j < this.size; j++) {
+				result += " " + this.board[i][j].toString();
 			}
 			result += "\n";
 		}
